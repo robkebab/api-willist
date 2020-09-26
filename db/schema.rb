@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_26_050521) do
+ActiveRecord::Schema.define(version: 2020_09_26_051109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,22 @@ ActiveRecord::Schema.define(version: 2020_09_26_050521) do
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
+  create_table "link_tags", force: :cascade do |t|
+    t.bigint "link_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["link_id"], name: "index_link_tags_on_link_id"
+    t.index ["tag_id"], name: "index_link_tags_on_tag_id"
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.string "text"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -50,4 +66,6 @@ ActiveRecord::Schema.define(version: 2020_09_26_050521) do
   add_foreign_key "course_tags", "courses"
   add_foreign_key "course_tags", "tags"
   add_foreign_key "courses", "users"
+  add_foreign_key "link_tags", "links"
+  add_foreign_key "link_tags", "tags"
 end
