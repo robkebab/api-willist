@@ -22,15 +22,23 @@ class UsersController < ApplicationController
     end
 
     def update
-
+        if @user.update(user_params)
+            render json: @user
+        else
+            render json: {"error": "couldn't update that user information"}
+        end
     end
 
     def destroy
-
+        if @user
+            @user.destroy
+            render json: {"message": "user deleted"}
+        else
+            render json: {"error": "could not find user number #{params[:id]}"}
+        end
     end
 
     private
-
         def find_user
             @user = User.find(params[:id])
         end
